@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load rms_tags %}
+
+{% block title %}
+    任务成绩列表
+{% endblock title %}
+
+{% block head %}
+    <style type="text/css">
+    input{
+        border: 0;  // 去除未选中状态边框
+        background-color: transparent; // 透明背景
+    }
+    </style>
+{% endblock head %}
+
+{% block page_heading %}
+    任务成绩列表
+{% endblock page_heading %}
+
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    任务成绩列表
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                     </span>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table editable-table ">
+                        <div class="clearfix">
+
+                        </div>
+                        <div class="space15"></div>
+
+
+
+                        <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                            <thead>
+                                <tr>
+                                    <th>学生</th>
+                                    <th>学号</th>
+                                    <th>任务成绩</th>
+                                    <th>保存</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for taskscore in tasksocre_list %}
+                                <form action="{% url 'rms:task_score_action' %}" method="post">
+                                {% csrf_token %}
+                                <tr>
+                                    <td><input type="text" value="{{ taskscore.student }}" name="student" style="background-color: transparent" disabled /></td>
+                                    <td><input type="text" value="{{ taskscore.student.sno }}" name="sno" style="background-color: transparent" disabled /></td>
+                                    <td><input type="text" value="{{ taskscore.score|floatbeautiful }}" style="background-color: transparent" name="grade" /></td>
+                                    <td>
+                                        <input type="hidden" name="taskscore_id" value="{{ taskscore.pk }}"/>
+                                        <input type="hidden" name="task_id" value="{{ task_id }}"/>
+                                        <button type="submit">保存</button>
+                                    </td>
+
+                                </tr>
+                                </form>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+{% endblock main %}

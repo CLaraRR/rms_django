@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load rms_tags %}
+
+{% block title %}
+首页
+{% endblock title %}
+
+{% block page_heading %}
+        资源列表
+
+{% endblock page_heading %}
+
+
+{% block main %}
+    <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            资源列表
+                            <span class="tools pull-right">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                                <a href="javascript:;" class="fa fa-times"></a>
+                             </span>
+                        </header>
+                        <div class="panel-body">
+                            {% get_categories as category_list %}
+                            <ul id="filters" class="media-filter">
+                                {% for category in category_list %}
+                                <li><a href="{% url 'rms:category' category.pk %}" data-filter="*"> {{ category }}</a></li>
+                                {% endfor %}
+                            </ul>
+
+                            <div class="btn-group pull-right">
+                                <form action="{% url 'rms:upload_resource' %}" method="get">
+    {#                                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-check-square-o"></i> Select all</button>#}
+    {#                                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-folder-open"></i> Add New</button>#}
+    {#                                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-trash-o"></i> Delete</button>#}
+                                    <button type="submit" class="btn btn-primary btn-sm" ><i class="fa fa-upload"></i> 上传资源</button>
+                                </form>
+                            </div>
+
+                            <div id="gallery" class="media-gal">
+                                {% for resource in resources %}
+                                    <div class="images item " >
+                                        <a href="{% url 'rms:resource_page' resource.pk %}" data-toggle="modal">
+                                            <img src="../../../{{ resource.image.url }}" alt="" />
+                                            <p>{{ resource.name }} </p>
+                                        </a>
+
+                                    </div>
+                                    {% empty %}
+                                    暂无资源！
+                                 {% endfor %}
+                            </div>
+
+
+{#                            <div class="col-md-12 text-center clearfix">#}
+{#                                <ul class="pagination">#}
+{#                                    <li><a href="#">«</a></li>#}
+{#                                    <li><a href="#">1</a></li>#}
+{#                                    <li><a href="#">2</a></li>#}
+{#                                    <li><a href="#">3</a></li>#}
+{#                                    <li><a href="#">4</a></li>#}
+{#                                    <li><a href="#">5</a></li>#}
+{#                                    <li><a href="#">»</a></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+
+                            {% if is_paginated %}
+                                <div class="col-md-12 text-center clearfix">
+                                <ul class="pagination">
+                                    {% if first %}
+                                        <li><a href="?page=1">1</a></li>
+                                    {% endif %}
+                                    {% if left %}
+                                        {% if left_has_more %}
+                                            <li><span>...</span></li>
+                                        {% endif %}
+                                        {% for i in left %}
+                                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <li><a href="?page={{ page_obj.number }}" style="color: blue">{{ page_obj.number }}</a></li>
+                                    {% if right %}
+                                        {% for i in right %}
+                                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endfor %}
+                                        {% if right_has_more %}
+                                            <li><span>...</span></li>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if last %}
+                                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                                    {% endif %}
+                                </ul>
+                                </div>
+                            {% endif %}
+
+
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+{% endblock main %}

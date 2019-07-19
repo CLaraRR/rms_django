@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load rms_tags %}
+
+{% block title %}
+    个人信息
+{% endblock title %}
+
+{% block page_heading %}
+    个人信息
+{% endblock page_heading %}
+
+{% block main %}
+
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <ul class="p-info">
+                    <li>
+                        <div class="title">姓名</div>
+                        <div class="desk">{{ user.username }}</div>
+                    </li>
+                    <li>
+                        <div class="title">学工号</div>
+                        <div class="desk">{{ user.sno }}</div>
+                    </li>
+                    <li>
+                        <div class="title">性别</div>
+                        <div class="desk">
+                            {{ user.sex|chinese }}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="title">类型</div>
+                        <div class="desk">
+                            {{ user.type|chinese }}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="title">出生日期</div>
+                        <div class="desk">{{ user.birthday }}</div>
+                    </li>
+                    <li>
+                        <div class="title">入学年份</div>
+                        <div class="desk">{{ user.section_info.year }}</div>
+                    </li>
+                    <li>
+                        <div class="title">入学学期</div>
+                        <div class="desk">{{ user.section_info.semester|chinese }}</div>
+                    </li>
+                    <li>
+                        <div class="title">学院</div>
+                        <div class="desk">{{ user.section_info.institute }}</div>
+                    </li>
+                    <li>
+                        <div class="title">专业</div>
+                        <div class="desk">{{ user.section_info.major }}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock main %}

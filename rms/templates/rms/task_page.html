@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    任务详情
+{% endblock title %}
+
+{% block page_heading %}
+    任务详情
+{% endblock page_heading %}
+
+{% block main %}
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <ul class="p-info">
+                    <li>
+                        <div class="title">任务编号</div>
+                        <div class="desk">{{ task.pk }}</div>
+                    </li>
+                    <li>
+                        <div class="title">任务名称</div>
+                        <div class="desk">{{ task.name }}</div>
+                    </li>
+                    <li>
+                        <div class="title">课程名称</div>
+                        <div class="desk">{{ task.course.name }}</div>
+                    </li>
+                    <li>
+                        <div class="title">任务描述</div>
+                        <div class="desk">{{ task.description }}</div>
+                    </li>
+                    <li>
+                        <div class="title">创建时间</div>
+                        <div class="desk">{{ task.create_time }}</div>
+                    </li>
+                    <li>
+                        <div class="title">修改时间</div>
+                        <div class="desk">{{ task.modify_time }}</div>
+                    </li>
+                    <li>
+                        <div class="title">截止时间</div>
+                        <div class="desk">{{ task.deadline_time }}</div>
+                    </li>
+                    {% if task.appendix %}
+                    <li>
+                        <div class="title">下载任务附件</div>
+                        <div class="desk"><a href="{% url 'rms:download_task_file' task.pk %}" >下载</a></div>
+                    </li>
+                    {% endif %}
+                    {% if user.type == 'student' %}
+                    <li>
+                        <div class="title">需要上传附件</div>
+                        <div class="desk">
+                            {% if task.is_allow_upload %}
+                                是
+                            {% else %}
+                                否
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="title">
+                            是否完成任务
+                            <br/>（若需要上传附件则自动确认，否则由教师手动确认）
+                        </div>
+                        <div class="desk">
+                            {% if taskscore.is_complete %}
+                                已完成
+                            {% else %}
+                                未完成
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="title">任务分数</div>
+                        <div class="desk">{{ taskscore.score }}</div>
+                    </li>
+                    {% else %}
+                    <li>
+                        <div class="title">完成人数</div>
+                        <div class="desk">{{ task.complete_num }}</div>
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+                {% if user.type == 'student' %}
+                    {% if task.is_allow_upload %}
+                        <div class="pull-left">
+                            <form action="{% url 'rms:task_submit' taskscore.pk %}" method="get">
+                                {% csrf_token %}
+                                <button class="btn btn-success btn-sm" type="submit">提交作业</button>
+                            </form>
+                        </div>
+                    {% endif %}
+
+                {% else %}
+                    {% if task.is_allow_upload %}
+                        <div class="pull-left">
+                            <form action="{% url 'rms:download_tasks_submit' task.pk %}" method="get">
+                                {% csrf_token %}
+{#                                <input type="hidden" value="{{ MEDIA_URL }}" name="file_path"/>#}
+                                <button class="btn btn-success btn-sm" type="submit">下载学生提交的附件</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main %}

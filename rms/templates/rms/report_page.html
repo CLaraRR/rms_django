@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    举报内容
+{% endblock title %}
+
+{% block page_heading %}
+    举报内容
+{% endblock page_heading %}
+
+{% block main %}
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <ul class="p-info">
+                    <li>
+                        <div class="title">举报标题</div>
+                        <div class="desk">{{ report.name }}</div>
+                    </li>
+                    <li>
+                        <div class="title">举报资源</div>
+                        <div class="desk"><a href="{% url 'rms:resource_page' report.resource_id %}">{{ report.resource }}</a></div>
+                    </li>
+                    <li>
+                        <div class="title">描述</div>
+                        <div class="desk">{{ report.description }}</div>
+                    </li>
+                    <li>
+                        <div class="title">内容</div>
+                        <div class="desk">{{ report.content }}</div>
+                    </li>
+                    <li>
+                        <div class="title">举报时间</div>
+                        <div class="desk">{{ report.create_time }}</div>
+                    </li>
+                    <li>
+                        <div class="title">是否被查看</div>
+                        <div class="desk">
+                            {% if report.is_view == 1 %}
+                            是
+                            {% else %}
+                            否
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="title">是否被处理</div>
+                        <div class="desk">
+                            {% if report.is_manage == 1 %}
+                            是
+                            {% else %}
+                            否
+                            {% endif %}
+                        </div>
+                    </li>
+
+                </ul>
+            {% if user.type == 'admin' %}
+                <div class="pull-left">
+                    <form action="{% url 'rms:report_manage' report.pk %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-success btn-sm" type="submit">确认已处理</button>
+                    </form>
+
+                </div>
+                <div class="pull-right">
+                    <form action="{% url 'rms:report_delete' report.pk %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-sm" type="submit">删除举报</button>
+                    </form>
+
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main %}

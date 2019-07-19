@@ -1,0 +1,25 @@
+<li>
+    <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
+        <i class="fa fa-tasks"></i>
+        <span class="badge">{{ task_score_list.count }}</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-head pull-right">
+        <h5 class="title">你有{{ task_score_list.count }}个待办任务</h5>
+        <ul class="dropdown-list user-list">
+            {% for task_score in task_score_list %}
+            <li class="new">
+                <a href="{% url 'rms:task_page' task_score.task.pk %}">
+                    <div class="task-info">
+                        <div>{{ task_score.task.name }}</div>
+                    </div>
+
+                </a>
+            </li>
+                {% empty %}
+                暂无待办任务！
+            {% endfor %}
+
+            <li class="new"><a href="{% url 'rms:task_list' %}">查看所有待办任务</a></li>
+        </ul>
+    </div>
+</li>

@@ -1,0 +1,124 @@
+{% extends '../base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    资源详情
+{% endblock title %}
+
+{% block page_heading %}
+    资源详情
+{% endblock page_heading %}
+
+{% block main %}
+    <div class="row">
+    <!-- 资源详情 -->
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="profile-pic text-center">
+                                <img alt="" src="../../../{{ resource.image.url }}">
+{#                                <img alt="" src="{{ resource.image.url }}">#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <ul class="p-info">
+                                <li>
+                                    <div class="title">资源名称</div>
+                                    <div class="desk">{{ resource.name }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">资源描述</div>
+                                    <div class="desk">{{ resource.description }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">类别</div>
+                                    <div class="desk">{{ resource.category }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">版本</div>
+                                    <div class="desk">{{ resource.version }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">上传者</div>
+                                    <div class="desk">{{ resource.author }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">创建时间</div>
+                                    <div class="desk">{{ resource.create_time }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">浏览次数</div>
+                                    <div class="desk">{{ resource.views }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">下载次数</div>
+                                    <div class="desk">{{ resource.downloads }}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="pull-left">
+                                <form action="{% url 'rms:download_resource' resource.pk %}" method="get">
+                                    <input type="hidden" value="{{ MEDIA_URL }}{{ resource.file }}" name="file_path"/>
+                                    <button class="btn btn-success btn-sm" type="submit">下载资源</button>
+                                </form>
+
+                            </div>
+                            <div class="pull-right">
+                                <form action="{% url 'rms:report_action' resource.pk %}" method="get">
+                                    <button class="btn btn-danger btn-sm" type="submit">举报资源</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <!-- 评论 -->
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            评论列表
+                            <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                             </span>
+                        </header>
+                        <div class="panel-body">
+                            <ul class="activity-list">
+                                {% for comment in comment_list %}
+                                <li>
+                                    <div class="activity-desk">
+                                        <h5><span>{{ comment.content }}</span></h5>
+                                        <p class="text-muted">{{ comment.create_time }}   by {{ comment.author }}</p>
+                                    </div>
+                                </li>
+                                    {% empty %}
+                                    暂无评论！
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

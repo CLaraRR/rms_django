@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load rms_tags %}
+
+{% block title %}
+    成绩列表
+{% endblock title %}
+
+{% block head %}
+    <style type="text/css">
+    input{
+        border: 0;  // 去除未选中状态边框
+        background-color: transparent; // 透明背景
+    }
+    </style>
+{% endblock head %}
+
+{% block page_heading %}
+    成绩列表
+{% endblock page_heading %}
+
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    成绩列表
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                     </span>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table editable-table ">
+                        <div class="clearfix">
+                            {% if user.type == 'teacher' %}
+                            <div>
+                                课程名称：{{ course.name }}
+                                <br/>
+                                总成绩计算公式及各部分占比：总成绩 = 平时成绩1 × 平时成绩1占比（{{ course.regular_proportion1 }}） + 平时成绩2 × 平时成绩2占比（{{ course.regular_proportion2 }}） + 期末成绩 × 期末成绩占比（{{ course.final_proportion }}）
+                            </div>
+                            {% endif %}
+
+                        </div>
+                        <div class="space15"></div>
+                    <!-- 如果是学生 -->
+                        {% if user.type == 'student' %}
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">工具 <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#">打印</a></li>
+                                <li><a onclick="toform('pdf')">保存为PDF</a></li>
+                                <li><a onclick="toform('excel')">导出为Excel</a></li>
+                            </ul>
+                        </div>
+                        <form id="form-export">{% csrf_token %}</form>
+                        <script>
+                        function toform(type) {
+                            var form=document.getElementById("form-export");
+                            if (type=='excel') {
+                                form.action="{% url 'rms:excel_export' user.pk %}";
+                            }else if(type=='pdf'){
+                                {#form.action="{% url 'rms:pdf_export' course.pk %}";#}
+                            }
+
+                            form.method="post";
+                            form.submit();
+                        }
+                        </script>
+                        <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                            <thead>
+                                <tr>
+                                    <th>课程编号</th>
+                                    <th>课程名称</th>
+                                    <th>学分</th>
+                                    <th>开办学院</th>
+                                    <th>平时成绩1</th>
+                                    <th>平时成绩2</th>
+                                    <th>期末成绩</th>
+                                    <th>总成绩</th>
+
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for score in score_list %}
+                                <tr class="">
+                                    <td>{{ score.course.pk }}</td>
+                                    <td>{{ score.course.name }}</td>
+                                    <td>{{ score.course.credit }}</td>
+                                    <td>{{ score.course.institute }}</td>
+                                    <td>{{ score.regular_grade1|floatbeautiful }}</td>
+                                    <td>{{ score.regular_grade2|floatbeautiful }}</td>
+                                    <td>{{ score.final_grade|floatbeautiful }}</td>
+                                    <td>{{ score.total_grade|floatbeautiful }}</td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    <!-- 如果是教师 -->
+                        {% elif user.type == 'teacher' %}
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">工具 <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#">打印</a></li>
+                                <li><a onclick="toform('pdf')">保存为PDF</a></li>
+                                <li><a onclick="toform('excel')">导出为Excel</a></li>
+
+                            </ul>
+                        </div>
+                        <form id="form-export">{% csrf_token %}</form>
+                        <script>
+                        function toform(type) {
+                            var form=document.getElementById("form-export");
+                            if (type=='excel') {
+                                form.action="{% url 'rms:excel_export' course.pk %}";
+                            }else if(type=='pdf'){
+                                {#form.action="{% url 'rms:pdf_export' course.pk %}";#}
+                            }
+
+                            form.method="post";
+                            form.submit();
+                        }
+
+                        </script>
+                        <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                            <thead>
+                                <tr>
+                                    <th>学生</th>
+                                    <th>学号</th>
+                                    <th>平时成绩1</th>
+                                    <th>平时成绩2</th>
+                                    <th>期末成绩</th>
+                                    <th>总成绩</th>
+                                    <th>保存</th>
+
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for score in score_list %}
+                                <form action="{% url 'rms:score_action' %}" method="post">
+                                {% csrf_token %}
+                                <tr>
+                                    <td><input type="text" value="{{ score.student }}" name="student" style="background-color: transparent" disabled /></td>
+                                    <td><input type="text" value="{{ score.student.sno }}" name="sno" style="background-color: transparent" disabled /></td>
+                                    <td><input type="text" value="{{ score.regular_grade1|floatbeautiful }}" style="background-color: transparent" name="rg1" /></td>
+                                    <td><input type="text" value="{{ score.regular_grade2|floatbeautiful }}" style="background-color: transparent" name="rg2" /></td>
+                                    <td><input type="text" value="{{ score.final_grade|floatbeautiful }}" style="background-color: transparent" name="fg" /></td>
+                                    <td><input type="text" value="{{ score.total_grade|floatbeautiful }}" style="background-color: transparent" name="tg" disabled /></td>
+                                    <td>
+                                        <input type="hidden" name="score_id" value="{{ score.pk }}"/>
+                                        <input type="hidden" name="course_id" value="{{ course.pk }}"/>
+                                        <button type="submit">保存</button>
+                                    </td>
+
+                                </tr>
+                                </form>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock main %}
+

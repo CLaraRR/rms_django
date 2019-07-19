@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load rms_tags %}
+
+{% block title %}
+    通知列表
+{% endblock title %}
+
+{% block page_heading %}
+    通知列表
+{% endblock page_heading %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12">
+        {% if user.type == 'admin' %}
+            <div class="btn-group pull-right">
+                <form action="{% url 'rms:publish_notice' %}" method="get">
+                    <button type="submit" class="btn btn-primary btn-sm" ><i class="fa fa-pencil"></i> 发布通知</button>
+                </form>
+            </div>
+        {% endif %}
+            <div class="timeline">
+                {% for notice in notices %}
+                    {% if notice.pk|divisibleby:2 == 1 %}
+                        <article class="timeline-item alt">
+                            <div class="timeline-desk">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <span class="arrow-alt"></span>
+                                        <span class="timeline-icon"></span>
+                                        <span class="timeline-date">{{ notice.create_time }}</span>
+                                        <h1 class="red">{{ notice.create_time }}  by  {{ notice.author }}</h1>
+                                        <p><a href="{% url 'rms:notice_page' notice.pk %}">{{ notice.name }} </a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% else %}
+                        <article class="timeline-item">
+                            <div class="timeline-desk">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <span class="arrow"></span>
+                                        <span class="timeline-icon"></span>
+                                        <span class="timeline-date">{{ notice.create_time }}</span>
+                                        <h1 class="red">{{ notice.create_time }}  by  {{ notice.author }}</h1>
+                                        <p><a href="{% url 'rms:notice_page' notice.pk %}">{{ notice.name }} </a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock main %}

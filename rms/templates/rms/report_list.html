@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    我的举报列表
+{% endblock title %}
+
+{% block page_heading %}
+    我的举报列表
+{% endblock page_heading %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    举报列表
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                 </span>
+                </header>
+
+                <div class="panel-body">
+                    <table class="table  table-hover general-table">
+                        <thead>
+                        <tr>
+                            <th>举报标题</th>
+                            <th>举报资源</th>
+                            <th>描述</th>
+                            <th>举报时间</th>
+                            <th>是否被查看</th>
+                            <th>是否被处理</th>
+                            {% if user.type == 'admin' %}
+                                <th>举报人</th>
+                                <th>删除</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for report in reports %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'rms:report_page' report.pk %}">
+                                    {{ report.name }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'rms:resource_page' report.resource_id %}">
+                                    {{ report.resource }}
+                                </a>
+
+                            </td>
+                            <td>{{ report.description }}</td>
+                            <td>{{ report.create_time }}</td>
+                            <td>
+                                {% if report.is_view == 1 %}
+                                    <span class="label label-success label-mini">是</span>
+                                {% else %}
+                                    <span class="label label-danger label-mini">否</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if report.is_manage == 1 %}
+                                    <span class="label label-success label-mini">是</span>
+                                {% else %}
+                                    <span class="label label-danger label-mini">否</span>
+                                {% endif %}
+                            </td>
+                            {% if user.type == 'admin' %}
+                                <td>{{ report.author }}</td>
+                                <td><a class="edit" href="{% url 'rms:report_delete' report.pk %}">删除</a></td>
+                            {% endif %}
+
+                        </tr>
+                            {% empty %}
+                            暂无举报内容!
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+            </section>
+        </div>
+    </div>
+{% endblock main %}

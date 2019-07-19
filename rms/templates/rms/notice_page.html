@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    通知页面
+{% endblock title %}
+
+{% block page_heading %}
+    通知页面
+{% endblock page_heading %}
+
+{% block main %}
+    <div class="panel">
+        <div class="panel-body">
+            <h1 class="text-center mtop35"><a href="#">{{ notice.name }}</a></h1>
+            <p class="text-center auth-row">
+                By <a href="#">{{ notice.author }}</a>   |   {{ notice.create_time }}
+            </p>
+            <p>
+                {{ notice.content }}
+            </p>
+
+            {% if notice.file %}
+            <div class="blog-tags">
+                <div class="pull-right tag-social">
+                    <form action="{% url 'rms:download_notice' notice.pk %}" method="get">
+                        <input type="hidden" value="{{ MEDIA_URL }}{{ notice.file }}" name="file_path"/>
+                        <button class="btn btn-success btn-sm" type="submit">下载附件</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock main %}

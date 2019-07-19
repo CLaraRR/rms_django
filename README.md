@@ -15,6 +15,7 @@
 
 ## 二、模块介绍
 各类用户在不同模块中的操作不同。
+
 | 模块 | 管理员   | 教师    | 学生 |
 | ---- | -------- | ------- | -------- |
 | 用户管理 | 对各类用户增删查改 | - | - |
@@ -31,6 +32,7 @@
 ## 三、models.py数据模型介绍
 以下模型在migrate时都在数据库自动创建了id字段，并自动设置为主键，因此下面在表格中省略书写id字段。
 ### 1.Institute model学院模型
+
 | 字段名称 | 含义 | 类型 |
 | ----- | ----- | ----- | 
 | name | 学院名称 | CharField | 
@@ -41,6 +43,7 @@
 模型操作：increase_teacher_num 每增加一个教师用户则教师人数加1
 
 ### 2.Major model专业模型
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 | name | 专业名称 | CharField |
@@ -49,6 +52,7 @@
 
 ### 3.SectionInfo model部门信息模型
 以 某入学年份+某入学学期+某学院机构+某专业 作为一个部门单位
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 | year | 入学年份|CharField|
@@ -56,10 +60,12 @@
 |institute|学院|ForeignKey:Institute|
 |major|专业|ForeignKey:Major|
 |student_num|部门学生人数|PositiveIntegerField|
+
 模型操作：increase_student_num 每增加一个学生用户，该学生用户所在部门的学生总人数加1
 
 ### 4.User model用户模型
 该用户模型可包含管理员、教师、学生三类用户
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |sno|学工号|CharField|
@@ -67,9 +73,11 @@
 |sex|性别|CharField|
 |birthday|出生日期|DateField|
 |type|用户类型|CharField|
+
 *说明：sno根据用户所在部门信息自动生成，无需手动设置。type有3种类型分别对应admin, teacher, student*
 
 ### 5.Course model课程模型
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |name|课程名称|CharField|
@@ -81,10 +89,12 @@
 |regular_proportion1|平时成绩1占比|FloatField|
 |regular_proportion2|平时成绩2占比|FloatField|
 |final_proportion|期末成绩占比|FloatField|
+
 *说明：teacher字段是一个外键，指向的是User表，且限制用户类型为teacher*
 
 ### 6.Score model课程成绩模型
 修读某一门课程的学生将自动为其增加一条score记录
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |course|课程名称|ForeignKey：Course|
@@ -110,12 +120,15 @@
 |appendix|附件|FileField|
 |complete_num|完成人数|PositiveIntegerField|
 |views|浏览数|PositiveIntegerField|
+
 模型操作：
 1.increase_views 任务页面每一打开一次浏览数加1
+
 2.increase_complete_num 任务可以要求学生上传作业或者不上传，若要求学生上传作业，则当学生上传了作业则完成人数自动加1；若不要求学生上传作业，则由老师自行确认学生是否完成作业，老师在给学生打分时将默认为该学生完成作业，并且完成人数加1
 
 ### 8.TaskScore model任务成绩模型
 修读了某一门课程的学生，当该门课的任课老师布置一个任务时，将自动为这个学生增加一条关于这个任务的score记录
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |task|所在任务|ForeignKey:Task|
@@ -138,10 +151,12 @@
 
 模型操作：
 1.increase_views 通知页面每被浏览一次则浏览数加1
+
 2.increase_downloads 通知附件每被下载一次则下载数加1
 
 ### 10.Report model举报信息模型
 用户可以对资源进行举报
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |name|举报标题|CharField|
@@ -152,8 +167,10 @@
 |author|举报人|ForeignKey:User|
 |is_view|管理员是否已查看该举报|BooleanField|
 |is_manage|管理员是否已处理该举报|BooleanField|
+
 模型操作：
 1.view_status 如果管理员查看了该举报信息，则is_view字段变为true
+
 2.manage_status 如果管理员处理了该举报信息，则is_manage字段变为true
 
 ### 11.Category model资源类别模型
@@ -163,6 +180,7 @@
 
 ### 12.Resource model资源模型
 用户可以上传资源至rms
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |name|资源名称|CharField|
@@ -175,12 +193,15 @@
 |create_time|创建时间|DateTimeField|
 |views|资源浏览数|PositiveIntegerField|
 |downloads|资源下载数|PositiveIntegerField|
+
 模型操作：
 1.increase_views 资源页面每被浏览一次则浏览数加1
+
 2.increase_downloads 资源每被下载一次则下载数加1
 
 ### 13.Comment model评论模型
 用户可以对资源进行评论
+
 | 字段名称 | 含义 | 类型 | 
 | ----- | ----- | ----- | 
 |resource|评论的资源|ForeignKey:Resource|

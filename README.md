@@ -330,7 +330,7 @@ django会根据定义好的form的字段自动在模板渲染该字段域，在�
 |TaskForm|name, description, content, appendix|
 |TaskSubmitForm|file|
 
-因为我在实现form的时候是继承forms.ModelForm的，所以一个form对应一个model，form的fields其实是对应model的字段，在后台可以通过form = XXForm(request.POST)获取到表单数据，然后通过form.save()可以直接创建model对象并持久化到数据库。但是有些字段我没有放在在form里面，他就不会在模板自动渲染，因此在后台也不会获取到这些字段的数据，所以如果我要获得这些字段的数据的话可以用一般的html标签在模板定义一个输入域，如<input/>，然后在后台通过value = request.POST.get('name')得到该字段对应的数据。
+因为我在实现form的时候是继承forms.ModelForm的，所以一个form对应一个model，form的fields其实是对应model的字段，在后台可以通过form = XXForm(request.POST)获取到表单数据，然后通过form.save()可以直接创建model对象并持久化到数据库。但是有些字段我没有放在在form里面，他就不会在模板自动渲染，因此在后台也不会获取到这些字段的数据，所以如果我要获得这些字段的数据的话可以用一般的html标签在模板定义一个输入域，如`<input/>`，然后在后台通过value = request.POST.get('name')得到该字段对应的数据。
 
 ## 七、一些实现上的细节
 

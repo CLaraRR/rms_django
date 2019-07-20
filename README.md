@@ -4,16 +4,87 @@
 
 ---
 
-本项目是教学资源管理系统的2.0版本，采用Python和Django进行编写，1.0版本在https://github.com/CLaraRR/Resource-Management-System 可以找到，采用Java实现。本项目使用的前端模板是从网上搜集而来，可以从另一个repo下载https://github.com/CLaraRR/BackgroundManagementSystem-template 。
+本项目是教学资源管理系统的2.0版本，采用Python和Django进行编写，1.0版本在https://github.com/CLaraRR/Resource-Management-System 可以找到，采用Java实现。本项目使用的前端模板是从网上搜集而来，可以从另一个repo下载https://github.com/CLaraRR/BackgroundManagementSystem-template。
 
 ---
 2.0版本相对于1.0版本的实现除了使用语言不同之外，还增加了几个模块，下面是这个项目的介绍。
 
 ---
-## 一、功能介绍
+## 一、运行项目
+clone或下载项目到本地，建议在虚拟环境下运行该项目。
+
+### 1.建立虚拟环境
+
+Ctrl + R打开cmd,输入
+```
+pip install virtualenv
+```
+
+创建一个文件夹专门用来存放虚拟环境，比如F:\PythonEnvs，进入该文件夹下，打开命令行，输入
+```
+virtualenv rms_env
+```
+
+然后rms_env文件夹就会被创建了，进入到Scripts文件夹，命令行输入
+```
+./activate
+```
+
+看到命令行前面多出了（rms_env）意思就是进入了我们刚才创建的虚拟环境
+
+往后运行项目都在这个虚拟环境下，如果没看到前面的（rms_env）则按上面的方法重新进入。
+
+### 2.安装所需的第三方库
+在这个虚拟环境下进入到这个项目的根目录，命令行输入
+```
+pip install -r requirements.txt
+```
+然后就会自动安装所需的库了
+
+mysqlclient在windows可能会安装失败，可以通过whl安装，在mysqlclient文件夹可以找到（因为我的平台是win10，所以我只下载了windows版本的whl），然后命令行输入
+```
+pip install requirements.txt所在路径
+```
+
+### 3.迁移数据库
+在mysql数据库新建名为rms的数据库，在项目rms_django文件夹下的setting.py中修改数据库账号密码为你自己的数据库账号密码。
+
+迁移数据库至mysql:命令行输入
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+django就会自动在数据库里面建立model.py的类所对应的表。
+
+### 4.运行项目
+在这个虚拟环境下进入到这个项目的根目录，命令行输入
+```
+python manage.py runserver
+
+```
+
+启动服务器成功后打开浏览器，输入http://127.0.0.1:8000/login/就能看到项目的登录页面了。
+
+因为此时数据库里面还没有任何用户，而一般系统都会有一个超级用户，也就是管理员，所以先创建一个超级用户,，命令行输入
+```
+python manage.py create superuser
+```
+
+根据提示填写管理员信息。
+
+创建好管理员之后，在浏览器输入http://127.0.0.1:8000/admin/，用刚才创建的账号密码登录，这就进入了django自带的管理后台。在这个后台可以直接对各个用户进行设置，也可以对各个model进行增删查改。
+
+我们可以在管理后台创建一些教师、学生用户，也可以创建学院、专业、课程的数据。
+
+如果不想自己一个个创建，可以参考我的数据库，里面已经创建好了一些数据段，在mydatabase文件夹可以找到，用mysql管理工具就可以导入数据。
+
+*ps:我只提供了某些表的数据，像resource表或者与resource表关联的表的数据我没有提供，因为resource需要用户在系统内上传资源才会在表中创建字段，这个大家就自行添加啦。*
+
+
+## 二、功能介绍
 这个教学资源管理系统（以下简称为rms）主要面向学校的三类用户：管理员、教师、学生，主要功能有用户管理、课程管理、课程成绩管理、资源管理、举报管理、通知管理、任务管理、任务成绩管理等。
 
-## 二、模块介绍
+## 三、模块介绍
 各类用户在不同模块中的操作不同。
 
 | 模块 | 管理员   | 教师    | 学生 |
@@ -29,7 +100,7 @@
 
 
 
-## 三、models.py数据模型介绍
+## 四、models.py数据模型介绍
 以下模型在migrate时都在数据库自动创建了id字段，并自动设置为主键，因此下面在表格中省略书写id字段。
 ### 1.Institute model学院模型
 
@@ -211,9 +282,57 @@
 
 
 
-## 四、views.py实现的功能介绍
+## 五、views.py实现的功能介绍
+### 一、一些View
+这些View是用class体现的。具体含义我就不一一解释了，应该从字面上就能看出来是干嘛的，主要就是从数据库取出数据到模板页面显示，不参与数据的post和get。
 
-## 五、一些实现上的细节
+|IndexView|ResourceView|CategoryView|NoticeListView|
+| --- | --- | --- | --- |
+|ProfileView|ReportListView|ReportDetialView|CourseListView|
+|ScoreListView|TaskListView|TaskDetailView|
+
+
+### 二、一些相关的action
+这些action是用函数体现的。
+
+|函数名|所属模块|作用|
+| --- | --- | --- |
+|download_resource|资源管理|下载资源|
+|resource_action|资源管理|GET:获取资源信息表单渲染至模板;POST:获取表单数据并上传资源|
+|report_action|举报管理|GET:获取举报信息表单渲染至模板；POST:获取表单字段数据保存至数据库|
+|report_manage|举报管理|修改举报信息“是否已处理”状态|
+|report_delete|举报管理|删除举报数据|
+|notice_action|通知管理|GET:获取通知表单渲染至模板；POST：获取表单数据保存至数据库|
+|download_notice|通知管理|下载通知附件|
+|course_action|课程管理|GET:获取课程信息表单；POST：提交课程信息表单|
+|course_delete|课程管理|删除课程数据|
+|course_student|课程成绩管理|GET:获取修读该门课的学生列表；POST：添加/更新修读该门课的学生，在Score表添加/更新该学生对应课程的成绩数据段|
+|course_equation|课程管理|GET:获得该门课的成绩计算公式；POST:更新该门课的成绩计算公式|
+|score_action|课程成绩管理|GET:获得某门课所有学生的成绩列表；POST:添加/更新该门课某个学生的成绩|
+|excel_export|课程成绩管理|导出成绩单为excel格式并下载到本地|
+|task_action|任务管理|GET:获取任务信息表单；POST：添加/更新任务信息|
+|download_task_file|任务管理|下载任务附件|
+|task_delete|任务管理|删除某任务数据|
+|task_score_action|任务成绩管理|GET:获取某任务所有学生的成绩列表；POST:添加/更新某学生的任务成绩|
+|task_submit|任务成绩管理|GET:获取某任务的提交表单；POST：学生提交任务，添加/更新任务成绩数据|
+|download_tasks_submit|任务管理|教师可以下载某个任务下所有学生提交的文件|
+
+## 六、forms.py定义的表单概览
+django会根据定义好的form的字段自动在模板渲染该字段域，在后台通过form可获得对应model的对象。
+
+|表单|fileds|
+| --- | --- |
+|ReportForm|name, description, content|
+|ResourceForm|name, description, category, version, author, file, image|
+|CommentForm|content, author|
+|NoticeForm|name, content, file, author|
+|CourseForm|name, create_time, total_hours, credit, teacher, institute|
+|TaskForm|name, description, content, appendix|
+|TaskSubmitForm|file|
+
+因为我在实现form的时候是继承forms.ModelForm的，所以一个form对应一个model，form的fields其实是对应model的字段，在后台可以通过form = XXForm(request.POST)获取到表单数据，然后通过form.save()可以直接创建model对象并持久化到数据库。但是有些字段我没有放在在form里面，他就不会在模板自动渲染，因此在后台也不会获取到这些字段的数据，所以如果我要获得这些字段的数据的话可以用一般的html标签在模板定义一个输入域，如<input/>，然后在后台通过value = request.POST.get('name')得到该字段对应的数据。
+
+## 七、一些实现上的细节
 
 
 

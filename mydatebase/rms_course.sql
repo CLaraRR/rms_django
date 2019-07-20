@@ -1,0 +1,10 @@
+INSERT INTO `rms_course` VALUES (1, '数据结构', NULL, 48, 4, 1, 8, 0.5, 0.1, 0.4);
+INSERT INTO `rms_course` VALUES (2, '计算机组成与结构', NULL, 48, 4, 1, 8, 0.5, 0.2, 0.3);
+INSERT INTO `rms_course` VALUES (3, '计算机网络', NULL, 48, 4, 1, 9, 0.5, 0.1, 0.4);
+INSERT INTO `rms_course` VALUES (14, '操作系统', NULL, 48, 4, 1, 8, 0.5, 0.1, 0.4);
+INSERT INTO `rms_course` VALUES (15, '计算机图形学', NULL, 48, 4, 1, 9, 0.5, 0.1, 0.4);
+INSERT INTO `rms_course` VALUES (16, 'Java编程与设计', NULL, 36, 3, 1, 8, 0.5, 0.1, 0.4);
+INSERT INTO `rms_course` VALUES (17, '机器学习', NULL, 48, 4, 1, 9, 0.5, 0.1, 0.4);
+INSERT INTO `rms_course` VALUES (18, '深度学习', NULL, 48, 4, 1, 8, 0.5, 0.15, 0.35);
+INSERT INTO `rms_course` VALUES (19, '数据库设计', NULL, 36, 3, 1, 9, 0.5, 0.2, 0.3);
+INSERT INTO `rms_course` VALUES (20, 'Web编程与设计', NULL, 36, 3, 1, 9, 0.6, 0.1, 0.3);

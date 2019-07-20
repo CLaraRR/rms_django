@@ -1,0 +1,9 @@
+INSERT INTO `publish_category` VALUES (1, 'IDE');
+INSERT INTO `publish_category` VALUES (2, '课件');
+INSERT INTO `publish_category` VALUES (3, '画图软件');
+INSERT INTO `publish_category` VALUES (4, '音乐');
+INSERT INTO `publish_category` VALUES (5, '视频');
+INSERT INTO `publish_category` VALUES (6, '模板');
+INSERT INTO `publish_category` VALUES (7, 'ppt');
+INSERT INTO `publish_category` VALUES (8, 'pdf');
+INSERT INTO `publish_category` VALUES (9, '工具包');

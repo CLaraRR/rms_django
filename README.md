@@ -4,7 +4,7 @@
 
 ---
 
-本项目是教学资源管理系统的2.0版本，采用Python和Django进行编写，1.0版本在https://github.com/CLaraRR/Resource-Management-System 可以找到，采用Java实现。本项目使用的前端模板是从网上搜集而来，可以从另一个repo下载https://github.com/CLaraRR/BackgroundManagementSystem-template。
+本项目是教学资源管理系统的2.0版本，采用Python和Django进行编写，1.0版本在https://github.com/CLaraRR/Resource-Management-System 可以找到，采用Java实现。本项目使用的前端模板是从网上搜集而来，可以从另一个repo下载https://github.com/CLaraRR/BackgroundManagementSystem-template 。
 
 ---
 2.0版本相对于1.0版本的实现除了使用语言不同之外，还增加了几个模块，下面是这个项目的介绍。
@@ -296,7 +296,7 @@ python manage.py create superuser
 这些action是用函数体现的。
 
 |函数名|所属模块|作用|
-| --- | ------- | --- |
+| --- | ------- | - |
 |download_resource|资源管理|下载资源|
 |resource_action|资源管理|GET:获取资源信息表单渲染至模板;POST:获取表单数据并上传资源|
 |report_action|举报管理|GET:获取举报信息表单渲染至模板；POST:获取表单字段数据保存至数据库|

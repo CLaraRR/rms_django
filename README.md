@@ -193,6 +193,7 @@ python manage.py create superuser
 |views|浏览数|PositiveIntegerField|
 
 模型操作：
+
 1.increase_views 任务页面每一打开一次浏览数加1
 
 2.increase_complete_num 任务可以要求学生上传作业或者不上传，若要求学生上传作业，则当学生上传了作业则完成人数自动加1；若不要求学生上传作业，则由老师自行确认学生是否完成作业，老师在给学生打分时将默认为该学生完成作业，并且完成人数加1
@@ -221,6 +222,7 @@ python manage.py create superuser
 |downloads|附件下载次数|PositiveIntegerField|
 
 模型操作：
+
 1.increase_views 通知页面每被浏览一次则浏览数加1
 
 2.increase_downloads 通知附件每被下载一次则下载数加1
@@ -240,6 +242,7 @@ python manage.py create superuser
 |is_manage|管理员是否已处理该举报|BooleanField|
 
 模型操作：
+
 1.view_status 如果管理员查看了该举报信息，则is_view字段变为true
 
 2.manage_status 如果管理员处理了该举报信息，则is_manage字段变为true
@@ -266,6 +269,7 @@ python manage.py create superuser
 |downloads|资源下载数|PositiveIntegerField|
 
 模型操作：
+
 1.increase_views 资源页面每被浏览一次则浏览数加1
 
 2.increase_downloads 资源每被下载一次则下载数加1

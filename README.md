@@ -41,9 +41,9 @@ pip install -r requirements.txt
 ```
 然后就会自动安装所需的库了
 
-mysqlclient在windows可能会安装失败，可以通过whl安装，在mysqlclient文件夹可以找到（因为我的平台是win10，所以我只下载了windows版本的whl），然后命令行输入
+mysqlclient在windows可能会安装失败，可以通过whl安装，在mysqlclient文件夹可以找到（因为我的平台是win10，所以我只下载了windows版本的whl，版本有27、37、38），根据自己的python的版本选择，然后命令行输入
 ```
-pip install requirements.txt所在路径
+pip install whl所在路径
 ```
 
 ### 3.迁移数据库

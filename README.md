@@ -296,7 +296,7 @@ python manage.py create superuser
 这些action是用函数体现的。
 
 |函数名|所属模块|作用|
-| --- | --- | --- |
+| --- | ------- | --- |
 |download_resource|资源管理|下载资源|
 |resource_action|资源管理|GET:获取资源信息表单渲染至模板;POST:获取表单数据并上传资源|
 |report_action|举报管理|GET:获取举报信息表单渲染至模板；POST:获取表单字段数据保存至数据库|

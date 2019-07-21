@@ -1,12 +1,12 @@
-﻿# ResourceManagementSystem2.0(教学资源管理系统2.0)
+[TOC]
+
+---
+# ResourceManagementSystem2.0(教学资源管理系统2.0)
 
 标签： python django
 
 ---
 
-[TOC]
-
----
 
 本项目是教学资源管理系统的2.0版本，采用Python和Django进行编写，1.0版本在https://github.com/CLaraRR/Resource-Management-System 可以找到，采用Java实现。本项目使用的前端模板是从网上搜集而来，可以从另一个repo下载https://github.com/CLaraRR/BackgroundManagementSystem-template 。
 

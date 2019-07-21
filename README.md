@@ -1,6 +1,3 @@
-[TOC]
-
----
 # ResourceManagementSystem2.0(教学资源管理系统2.0)
 
 标签： python django
